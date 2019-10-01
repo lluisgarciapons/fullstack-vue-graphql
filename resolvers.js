@@ -16,6 +16,18 @@ module.exports = {
           model: "User"
         });
       return posts;
+    },
+    getCurrentUser: async (_, args, { User, currentUser }) => {
+      if (!currentUser) {
+        return null;
+      }
+      const user = await User.findOne({
+        username: currentUser.username
+      }).populate({
+        path: "favorites",
+        model: "Post"
+      });
+      return user;
     }
   },
   Mutation: {
