@@ -12,7 +12,8 @@ export default new Vuex.Store({
   state: {
     posts: [],
     user: null,
-    loading: false
+    loading: false,
+    error: null
   },
   mutations: {
     setUser: (state, payload) => {
@@ -24,7 +25,11 @@ export default new Vuex.Store({
     setLoading: (state, payload) => {
       state.loading = payload;
     },
-    clearUser: state => (state.user = null)
+    setError: (state, payload) => {
+      state.error = payload;
+    },
+    clearUser: state => (state.user = null),
+    clearError: state => (state.error = null)
   },
   actions: {
     getCurrentUser: ({ commit }) => {
@@ -64,6 +69,7 @@ export default new Vuex.Store({
         });
     },
     signinUser: ({ commit }, payload) => {
+      commit("clearError");
       // clear token to prevent errors (if malformed)
       localStorage.setItem("token", "");
       apolloClient
@@ -77,6 +83,7 @@ export default new Vuex.Store({
           router.go();
         })
         .catch(err => {
+          commit("setError", err);
           console.error(err);
         });
     },
@@ -94,6 +101,7 @@ export default new Vuex.Store({
   getters: {
     user: state => state.user,
     posts: state => state.posts,
-    loading: state => state.loading
+    loading: state => state.loading,
+    error: state => state.error
   }
 });
