@@ -26,6 +26,14 @@
             {{ item.title }}
           </v-list-tile-content>
         </v-list-tile>
+
+        <!-- Signout Button -->
+        <v-list-tile v-if="user" @click="handleSignoutUser">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>Signout</v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
 
@@ -64,6 +72,21 @@
           <v-icon class="hidden-sm-only" left>{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>
+
+        <!-- Profile button -->
+        <v-btn flat to="/profile" v-if="user">
+          <v-icon class="hidden-sm-only" left>account_box</v-icon>
+          <v-badge right color="blue darken-2">
+            <!-- <span slot="badge">10</span> -->
+            Profile
+          </v-badge>
+        </v-btn>
+
+        <!-- Signout Button -->
+        <v-btn flat v-if="user" @click="handleSignoutUser">
+          <v-icon class="hidden-sm-only" left>exit_to_app</v-icon>
+          Signout
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -78,6 +101,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "App",
   data() {
@@ -86,22 +110,41 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["user"]),
     horizontalNavItems() {
-      return [
+      let items = [
         { icon: "chat", title: "Posts", link: "/posts" },
         { icon: "lock_open", title: "Sign In", link: "/signin" },
         { icon: "create", title: "Sign Up", link: "/signup" }
       ];
+
+      if (this.user) {
+        items = [{ icon: "chat", title: "Posts", link: "/posts" }];
+      }
+      return items;
     },
     sideNavItems() {
-      return [
+      let items = [
         { icon: "chat", title: "Posts", link: "/posts" },
         { icon: "lock_open", title: "Sign In", link: "/signin" },
         { icon: "create", title: "Sign Up", link: "/signup" }
       ];
+
+      if (this.user) {
+        items = [
+          { icon: "chat", title: "Posts", link: "/posts" },
+          { icon: "stars", title: "Create Post", link: "/post/add" },
+          { icon: "account_box", title: "Profile", link: "/profile" }
+        ];
+      }
+
+      return items;
     }
   },
   methods: {
+    handleSignoutUser() {
+      this.$store.dispatch("signoutUser");
+    },
     toggleSideNav() {
       this.sideNav = !this.sideNav;
     }
