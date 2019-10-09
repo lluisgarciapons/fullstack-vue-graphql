@@ -85,7 +85,7 @@ export default new Vuex.Store({
           router.go();
         })
         .catch(err => {
-          commit("setLoading", true);
+          commit("setLoading", false);
           commit("setError", err);
           console.error(err);
         });
