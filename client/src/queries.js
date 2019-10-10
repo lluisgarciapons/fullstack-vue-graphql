@@ -33,7 +33,7 @@ export const GET_CURRENT_USER = gql`
 
 export const INFINITE_SCROLL_POSTS = gql`
   query($pageNum: Int!, $pageSize: Int!) {
-    infiniteScrollPosts(pagenum: $pageNum, pageSize: $pageSize) {
+    infiniteScrollPosts(pageNum: $pageNum, pageSize: $pageSize) {
       hasMore
       posts {
         _id
@@ -42,7 +42,7 @@ export const INFINITE_SCROLL_POSTS = gql`
         categories
         description
         likes
-        createDate
+        createdDate
         messages {
           _id
         }

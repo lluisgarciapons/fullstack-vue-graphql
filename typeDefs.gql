@@ -21,6 +21,7 @@ type Post {
 }
 
 type Message {
+  _id: ID
   messageBody: String!
   messageDate: String
   messageUser: User!
@@ -38,7 +39,7 @@ type PostPage {
 type Query {
   getCurrentUser: User
   getPosts: [Post]
-  infiniteScrollPosts(pageNumber: Int!, pageSize: Int!): PostPage
+  infiniteScrollPosts(pageNum: Int!, pageSize: Int!): PostPage
 }
 
 input inputPost {
