@@ -31,6 +31,31 @@ export const GET_CURRENT_USER = gql`
   }
 `;
 
+export const INFINITE_SCROLL_POSTS = gql`
+  query($pageNum: Int!, $pageSize: Int!) {
+    infiniteScrollPosts(pagenum: $pageNum, pageSize: $pageSize) {
+      hasMore
+      posts {
+        _id
+        title
+        imageUrl
+        categories
+        description
+        likes
+        createDate
+        messages {
+          _id
+        }
+        createdBy {
+          _id
+          username
+          avatar
+        }
+      }
+    }
+  }
+`;
+
 /* Posts Mutations */
 export const ADD_POST = gql`
   mutation(
@@ -52,7 +77,6 @@ export const ADD_POST = gql`
       imageUrl
       categories
       description
-      createdDate
     }
   }
 `;
